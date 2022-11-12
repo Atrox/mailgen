@@ -1,0 +1,40 @@
+{% if email.greeting %}
+    <h1>{{ email.greeting }}</h1>
+{% endif %}
+
+{% if email.intros %}
+    {% for intro in email.intros %}
+        <p>{{ intro }}</p>
+    {% endfor %}
+{% endif %}
+
+{% if email.dictionary %}
+    <ul>
+    {% for d in email.dictionary %}
+        <li>{{ d.0 }}: {{ d.1 }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if email.actions %}
+    {% for action in email.actions %}
+        <p>
+            {{ action.instructions }} <br/>
+            {{ action.text }}: {{ action.link | safe }}
+        </p>
+    {% endfor %}
+{% endif %}
+
+{% if email.outros %}
+    {% for outro in email.outros %}
+        <p>{{ outro }}</p>
+    {% endfor %}
+{% endif %}
+
+
+<p>
+    {{ email.signature }},<br>
+    {{ branding.name }} - {{ branding.link }}
+</p>
+
+<p>{{ branding.copyright }}</p>

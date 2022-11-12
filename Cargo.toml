@@ -1,0 +1,18 @@
+[package]
+name = "mailgen"
+description = "Mailgen generates clean, responsive HTML and Text e-mails for sending transactional mail"
+version = "0.1.0"
+authors = ["Atrox <hello@atrox.dev>"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/atrox/mailgen"
+homepage = "https://github.com/atrox/mailgen"
+categories = ["email"]
+keywords = ["email", "generator", "mailgen"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0.30"
+tera = { version = "1.15.0", default-features = false }
+css-inline = "0.8"
+html2text = "0.4.4"
