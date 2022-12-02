@@ -1,7 +1,7 @@
 [package]
 name = "mailgen"
 description = "Mailgen generates clean, responsive HTML and Text e-mails for sending transactional mail"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Atrox <hello@atrox.dev>"]
 edition = "2021"
 license = "MIT"
@@ -10,9 +10,14 @@ homepage = "https://github.com/atrox/mailgen"
 categories = ["email"]
 keywords = ["email", "generator", "mailgen"]
 
+[features]
+default = ["default-theme"]
+default-theme = ["dep:tera", "dep:css-inline", "dep:html2text"]
+
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
 thiserror = "1.0.30"
-tera = { version = "1.15.0", default-features = false }
-css-inline = "0.8"
-html2text = "0.4.4"
+
+tera = { version = "1.15.0", default-features = false, optional = true }
+css-inline = { version = "0.8", optional = true }
+html2text = { version = "0.4.4", optional = true }

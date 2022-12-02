@@ -10,7 +10,7 @@
 //!
 //! let theme = DefaultTheme::new();
 //! let branding = Branding::new("test product", "https://testproduct.com");
-//! let mailgen = Mailgen::new(&theme, branding);
+//! let mailgen = Mailgen::new(theme, branding);
 //!
 //! let email = EmailBuilder::default()
 //!     .greeting(Greeting::Name("person name"))
@@ -46,22 +46,40 @@
 
 mod builder;
 mod email;
-mod error;
 pub mod themes;
 
 pub use builder::EmailBuilder;
 pub use email::{Action, Email, Greeting};
-pub use error::Error;
 use serde::{Deserialize, Serialize};
-use tera::Tera;
-use themes::Theme;
+use themes::{TemplateContext, Theme};
 
-pub struct Mailgen {
+pub struct Mailgen<T: Theme> {
+    theme: T,
     branding: Branding,
+}
 
-    // theme
-    html_template: String,
-    text_template: String,
+impl<T: Theme> Mailgen<T> {
+    pub fn new(theme: T, branding: Branding) -> Self {
+        Self { theme, branding }
+    }
+
+    pub fn render_html(&self, email: &Email) -> Result<String, T::Error> {
+        let context = TemplateContext {
+            email,
+            branding: &self.branding,
+        };
+
+        self.theme.html(&context)
+    }
+
+    pub fn render_text(&self, email: &Email) -> Result<String, T::Error> {
+        let context = TemplateContext {
+            email,
+            branding: &self.branding,
+        };
+
+        self.theme.text(&context)
+    }
 }
 
 /// Product represents your company product (brand)
@@ -94,62 +112,20 @@ impl Branding {
     }
 }
 
-#[derive(Serialize)]
-struct TemplateContext<'a> {
-    branding: &'a Branding,
-    email: &'a Email<'a>,
-}
-
-impl Mailgen {
-    pub fn new<'t>(theme: &impl Theme<'t>, branding: Branding) -> Self {
-        let html_template = theme.html().to_string();
-        let text_template = theme.text().to_string();
-
-        Self {
-            branding,
-
-            html_template,
-            text_template,
-        }
-    }
-
-    pub fn render_html(&self, email: &Email) -> Result<String, Error> {
-        let html = self.render(email, &self.html_template)?;
-        let html = css_inline::inline(&html)?;
-        Ok(html)
-    }
-
-    pub fn render_text(&self, email: &Email) -> Result<String, Error> {
-        let html = self.render(email, &self.text_template)?;
-        let html = html2text::from_read(html.as_bytes(), 80);
-        Ok(html)
-    }
-
-    fn render(&self, email: &Email, template: &str) -> Result<String, Error> {
-        let context = TemplateContext {
-            email,
-            branding: &self.branding,
-        };
-
-        let tera_context = tera::Context::from_serialize(&context)?;
-        let html = Tera::one_off(template, &tera_context, true)?;
-
-        Ok(html)
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use crate::builder::EmailBuilder;
     use crate::email::{Action, Greeting};
-    use crate::themes::DefaultTheme;
     use crate::{Branding, Mailgen};
 
     #[test]
-    fn test_general_usage() -> Result<(), Box<dyn std::error::Error>> {
+    #[cfg(feature = "default-theme")]
+    fn test_default_theme() -> Result<(), Box<dyn std::error::Error>> {
+        use crate::themes::DefaultTheme;
+
         let theme = DefaultTheme::new();
         let product = Branding::new("test product", "https://testproduct.com");
-        let mailgen = Mailgen::new(&theme, product);
+        let mailgen = Mailgen::new(theme, product);
 
         let email = EmailBuilder::default()
             .greeting(Greeting::Name("person name"))

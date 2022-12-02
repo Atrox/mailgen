@@ -102,10 +102,10 @@ impl<'a> EmailBuilder<'a> {
 #[cfg(test)]
 mod tests {
     use crate::email::Greeting;
-    use crate::{EmailBuilder, Error};
+    use crate::EmailBuilder;
 
     #[test]
-    fn usage() -> Result<(), Error> {
+    fn usage() {
         let _email = EmailBuilder::default()
             .greeting(Greeting::Custom("custom greeting"))
             .intro("test")
@@ -122,7 +122,5 @@ mod tests {
         }
 
         let _email = email.build();
-
-        Ok(())
     }
 }
