@@ -37,4 +37,6 @@
     {{ branding.name }} - {{ branding.link }}
 </p>
 
-<p>{{ branding.copyright }}</p>
+{% if branding.copyright %}
+    <p>{{ branding.copyright }}</p>
+{% endif %}
