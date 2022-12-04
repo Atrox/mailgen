@@ -36,10 +36,10 @@
 //!     .build();
 //!
 //! let rendered = mailgen.render_text(&email)?;
-//! std::fs::write("./email.txt", &rendered)?;
+//! std::fs::write("./email-doctest.txt", &rendered)?;
 //!
 //! let rendered = mailgen.render_html(&email)?;
-//! std::fs::write("./email.html", &rendered)?;
+//! std::fs::write("./email-doctest.html", &rendered)?;
 //!
 //! # Ok::<(), Box<dyn std::error::Error>>(())
 //! ```
