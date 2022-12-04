@@ -23,7 +23,7 @@ pub struct Email<'a> {
 pub enum Greeting<'a> {
     /// Displays a greeting by name. Renders as `Hey {name},`
     Name(&'a str),
-    /// Custom title
+    /// Custom greeting
     Custom(&'a str),
 }
 

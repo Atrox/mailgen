@@ -86,11 +86,11 @@ impl<T: Theme> Mailgen<T> {
 /// Appears in header & footer of e-mails
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Branding {
-    name: String,
-    link: String,
-    logo: Option<String>,
-    copyright: Option<String>,
-    trouble_text: String,
+    pub name: String,
+    pub link: String,
+    pub logo: Option<String>,
+    pub copyright: Option<String>,
+    pub trouble_text: String,
 }
 
 impl Branding {
