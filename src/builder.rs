@@ -30,6 +30,7 @@ use crate::email::{Action, Email, Greeting};
 /// ```
 #[derive(Clone, Default)]
 pub struct EmailBuilder<'a> {
+    summary: Option<&'a str>,
     greeting: Option<Greeting<'a>>,
     intros: Option<Vec<&'a str>>,
     dictionary: Option<Vec<(&'a str, &'a str)>>,
@@ -39,6 +40,12 @@ pub struct EmailBuilder<'a> {
 }
 
 impl<'a> EmailBuilder<'a> {
+    /// E-Mail summary, gets rendered in preview box on most email clients
+    pub fn summary(mut self, v: &'a str) -> Self {
+        self.summary = Some(v);
+        self
+    }
+
     /// E-Mail greeting
     pub fn greeting(mut self, v: Greeting<'a>) -> Self {
         self.greeting = Some(v);
@@ -89,6 +96,7 @@ impl<'a> EmailBuilder<'a> {
 
     pub fn build(self) -> Email<'a> {
         Email {
+            summary: self.summary,
             greeting: self.greeting,
             intros: self.intros,
             dictionary: self.dictionary,

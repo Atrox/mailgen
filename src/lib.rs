@@ -13,6 +13,7 @@
 //! let mailgen = Mailgen::new(theme, branding);
 //!
 //! let email = EmailBuilder::default()
+//!     .summary("this is a test email that contains stuff to test...")
 //!     .greeting(Greeting::Name("person name"))
 //!     .intro("test intro")
 //!     .intro("another intro")
@@ -128,6 +129,7 @@ mod tests {
         let mailgen = Mailgen::new(theme, product);
 
         let email = EmailBuilder::default()
+            .summary("this is a test email that contains stuff to test...")
             .greeting(Greeting::Name("person name"))
             .intro("test intro")
             .intro("another intro")

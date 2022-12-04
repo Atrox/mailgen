@@ -1,3 +1,7 @@
+{% if email.summary %}
+    <p>{{ email.summary }}</p>
+{% endif %}
+
 {% if email.greeting %}
     <h1>{{ email.greeting }}</h1>
 {% endif %}

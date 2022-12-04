@@ -5,6 +5,8 @@ use serde::Serialize;
 /// Email for rendering
 #[derive(Debug, Clone, Serialize)]
 pub struct Email<'a> {
+    /// E-Mail summary, gets rendered in preview box on most email clients
+    pub summary: Option<&'a str>,
     /// E-Mail greeting
     pub greeting: Option<Greeting<'a>>,
     /// Intro sentences, first displayed in the email
