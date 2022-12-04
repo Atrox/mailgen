@@ -37,10 +37,10 @@
 //!     .build();
 //!
 //! let rendered = mailgen.render_text(&email)?;
-//! std::fs::write("./email-doctest.txt", &rendered)?;
+//! std::fs::write("./email-doctest.txt", rendered)?;
 //!
 //! let rendered = mailgen.render_html(&email)?;
-//! std::fs::write("./email-doctest.html", &rendered)?;
+//! std::fs::write("./email-doctest.html", rendered)?;
 //!
 //! # Ok::<(), Box<dyn std::error::Error>>(())
 //! ```
@@ -98,7 +98,7 @@ impl Branding {
     pub fn new<S: Into<String>>(name: S, link: S) -> Self {
         let name = name.into();
         let link = link.into();
-        let copyright = format!("Copyright © {}. All rights reserved.", name);
+        let copyright = format!("Copyright © {name}. All rights reserved.");
         let trouble_text = "If you’re having trouble with the button '{ACTION}', copy and paste \
                             the URL below into your web browser."
             .to_string();
@@ -153,10 +153,10 @@ mod tests {
             .build();
 
         let rendered = mailgen.render_text(&email)?;
-        std::fs::write("./email.txt", &rendered)?;
+        std::fs::write("./email.txt", rendered)?;
 
         let rendered = mailgen.render_html(&email)?;
-        std::fs::write("./email.html", &rendered)?;
+        std::fs::write("./email.html", rendered)?;
 
         Ok(())
     }

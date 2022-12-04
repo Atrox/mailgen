@@ -32,7 +32,7 @@ pub enum Greeting<'a> {
 impl<'a> Display for Greeting<'a> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Greeting::Name(name) => write!(f, "Hey {},", name),
+            Greeting::Name(name) => write!(f, "Hey {name},"),
             Greeting::Custom(custom) => f.write_str(custom),
         }
     }
