@@ -18,7 +18,7 @@ let theme = DefaultTheme::new();
 let branding = Branding::new("test product", "https://testproduct.com");
 let mailgen = Mailgen::new(&theme, branding);
 
-let email = EmailBuilder::default()
+let email = EmailBuilder::new()
     .greeting(Greeting::Name("person name"))
     .intro("test intro")
     .intro("another intro")

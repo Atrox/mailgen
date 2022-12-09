@@ -12,7 +12,7 @@
 //! let branding = Branding::new("test product", "https://testproduct.com");
 //! let mailgen = Mailgen::new(theme, branding);
 //!
-//! let email = EmailBuilder::default()
+//! let email = EmailBuilder::new()
 //!     .summary("this is a test email that contains stuff to test...")
 //!     .greeting(Greeting::Name("person name"))
 //!     .intro("test intro")
@@ -128,7 +128,7 @@ mod tests {
         let product = Branding::new("test product", "https://testproduct.com");
         let mailgen = Mailgen::new(theme, product);
 
-        let email = EmailBuilder::default()
+        let email = EmailBuilder::new()
             .summary("this is a test email that contains stuff to test...")
             .greeting(Greeting::Name("person name"))
             .intro("test intro")
