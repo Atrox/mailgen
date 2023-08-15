@@ -1,7 +1,7 @@
 [package]
 name = "mailgen"
 description = "Mailgen generates clean, responsive HTML and Text e-mails for sending transactional mail"
-version = "0.2.3"
+version = "0.2.4"
 authors = ["Atrox <hello@atrox.dev>"]
 edition = "2021"
 license = "MIT"
