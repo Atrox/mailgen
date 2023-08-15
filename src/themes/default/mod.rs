@@ -8,8 +8,18 @@ use super::{TemplateContext, Theme};
 static HTML: &str = include_str!("template.html");
 static TEXT: &str = include_str!("template.text");
 
-#[derive(Debug, Default, Clone, Copy)]
-pub struct DefaultTheme {}
+#[derive(Debug, Clone, Copy)]
+pub struct DefaultTheme {
+    pub logo_max_height: u32,
+}
+
+impl Default for DefaultTheme {
+    fn default() -> Self {
+        Self {
+            logo_max_height: 50,
+        }
+    }
+}
 
 impl DefaultTheme {
     pub fn new() -> Self {
@@ -17,9 +27,10 @@ impl DefaultTheme {
     }
 
     fn render(&self, template: &str, context: &TemplateContext) -> Result<String, Error> {
-        let tera_context = tera::Context::from_serialize(context)?;
-        let rendered = Tera::one_off(template, &tera_context, true)?;
+        let mut tera_context = tera::Context::from_serialize(context)?;
+        tera_context.insert("logo_max_height", &self.logo_max_height);
 
+        let rendered = Tera::one_off(template, &tera_context, true)?;
         Ok(rendered)
     }
 }
