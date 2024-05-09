@@ -8,7 +8,7 @@
 //! use mailgen::themes::DefaultTheme;
 //! use mailgen::{Action, Branding, EmailBuilder, Greeting, Mailgen};
 //!
-//! let theme = DefaultTheme::new();
+//! let theme = DefaultTheme::new()?;
 //! let branding = Branding::new("test product", "https://testproduct.com");
 //! let mailgen = Mailgen::new(theme, branding);
 //!
@@ -124,7 +124,7 @@ mod tests {
     fn test_default_theme() -> Result<(), Box<dyn std::error::Error>> {
         use crate::themes::DefaultTheme;
 
-        let theme = DefaultTheme::new();
+        let theme = DefaultTheme::new()?;
         let product = Branding::new("test product", "https://testproduct.com");
         let mailgen = Mailgen::new(theme, product);
 
