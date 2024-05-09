@@ -332,9 +332,9 @@
 
                                     {% if email.dictionary %}
                                         <dl class="body-dictionary">
-                                        {% for d in email.dictionary %}
-                                            <dt>{{ d.0 }}:</dt>
-                                            <dd>{{ d.1 }}</dd>
+                                        {% for (key, value) in email.dictionary %}
+                                            <dt>{{ key }}:</dt>
+                                            <dd>{{ value }}</dd>
                                         {% endfor %}
                                         </dl>
                                     {% endif %}
@@ -348,7 +348,7 @@
                                                 <tr>
                                                     <td align="center">
                                                         <div>
-                                                            <a href="{{ action.link | safe }}" class="button" target="_blank" {% if action.color %}style="color: {{ action.color.1 }}; background-color: {{ action.color.0 }};"{% endif %}>
+                                                            <a href="{{ action.link | safe }}" class="button" target="_blank" {% if action.color %}style="color: {{ action.color[1] }}; background-color: {{ action.color[0] }};"{% endif %}>
                                                                 {{ action.text }}
                                                             </a>
                                                         </div>
@@ -365,8 +365,11 @@
                                     {% endif %}
 
                                     <p>
-                                        {{ email.signature }},
-                                        <br/>
+                                        {% if email.signature %}
+                                            {{ email.signature }}
+                                            <br/>
+                                        {% endif %}
+
                                         {{ branding.name }}
                                     </p>
 
@@ -376,7 +379,7 @@
                                                 {% for action in email.actions %}
                                                     <tr>
                                                         <td>
-                                                            <p class="sub">{{ branding.trouble_text | replace(from="{ACTION}", to=action.text) }}</p>
+                                                            <p class="sub">{{ branding.trouble_text | replace("{ACTION}", action.text) }}</p>
                                                             <p class="sub">
                                                                 <a href="{{ action.link | safe }}">{{ action.link }}</a>
                                                             </p>

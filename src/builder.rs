@@ -44,7 +44,7 @@ impl<'a> EmailBuilder<'a> {
     pub fn new() -> Self {
         Self {
             greeting: Some(Greeting::Custom("Hey")),
-            signature: Some("Yours truly"),
+            signature: Some("Yours truly,"),
 
             ..Default::default()
         }

@@ -14,8 +14,8 @@
 
 {% if email.dictionary %}
     <ul>
-    {% for d in email.dictionary %}
-        <li>{{ d.0 }}: {{ d.1 }}</li>
+    {% for (key, value) in email.dictionary %}
+        <li>{{ key }}: {{ value }}</li>
     {% endfor %}
     </ul>
 {% endif %}
@@ -23,7 +23,7 @@
 {% if email.actions %}
     {% for action in email.actions %}
         <p>
-            {{ action.instructions }} <br/>
+            {% if action.instructions %}{{ action.instructions }} <br/>{% endif %}
             {{ action.text }}: {{ action.link | safe }}
         </p>
     {% endfor %}
@@ -37,7 +37,10 @@
 
 
 <p>
-    {{ email.signature }},<br>
+    <br>
+    {% if email.signature %}
+        {{ email.signature }}<br>
+    {% endif %}
     {{ branding.name }} - {{ branding.link }}
 </p>
 
