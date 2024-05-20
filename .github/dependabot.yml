@@ -4,8 +4,19 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      cargo:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+    groups:
+      ghactions:
+        patterns:
+          - "*"
