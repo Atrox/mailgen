@@ -50,7 +50,7 @@ mod email;
 pub mod themes;
 
 pub use builder::EmailBuilder;
-pub use email::{Action, Email, Greeting, Table, TableColumns};
+pub use email::{Action, Email, GoToAction, Greeting, Table, TableColumns};
 use serde::{Deserialize, Serialize};
 use themes::{TemplateContext, Theme};
 
@@ -115,8 +115,7 @@ impl Branding {
 #[cfg(test)]
 mod tests {
     use crate::builder::EmailBuilder;
-    use crate::email::{Action, Greeting};
-    use crate::{Branding, Mailgen, Table, TableColumns};
+    use crate::{Action, Branding, Greeting, Mailgen, Table, TableColumns};
 
     #[test]
     #[cfg(feature = "default-theme")]
@@ -312,6 +311,47 @@ mod tests {
 
         // End the MIME message
         writeln!(eml_file, "--{boundary}--")?;
+
+        Ok(())
+    }
+
+    #[test]
+    #[cfg(feature = "default-theme")]
+    fn test_go_to_action() -> Result<(), Box<dyn std::error::Error>> {
+        use crate::themes::DefaultTheme;
+
+        let theme = DefaultTheme::new()?;
+        let branding = Branding::new("Test Company", "https://example.com");
+        let mailgen = Mailgen::new(theme, branding);
+
+        let email = EmailBuilder::new()
+            .summary("Account Activation")
+            .greeting(Greeting::Name("John Doe"))
+            .intro("Welcome to our service! Please activate your account.")
+            .action(Action {
+                text: "Activate Account",
+                link: "https://example.com/activate",
+                instructions: Some("Click the button below to activate your account:"),
+                ..Default::default()
+            })
+            .go_to_action(
+                "Activate Now",
+                "https://example.com/activate",
+                "Activate your account with one click",
+            )
+            .outro("Need help? Just reply to this email.")
+            .build();
+
+        let rendered_html = mailgen.render_html(&email)?;
+
+        // Verify JSON-LD script tag is present
+        assert!(rendered_html.contains("application/ld+json"));
+        assert!(rendered_html.contains("Activate your account with one click"));
+
+        std::fs::write("./email_with_goto_action.html", rendered_html)?;
+
+        let rendered_text = mailgen.render_text(&email)?;
+        std::fs::write("./email_with_goto_action.txt", rendered_text)?;
 
         Ok(())
     }

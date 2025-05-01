@@ -423,6 +423,22 @@
                                         {% endfor %}
                                     {% endif %}
 
+                                    <!-- Support for Gmail Go-To Actions -->
+                                    {% if email.go_to_action %}
+                                    <script type="application/ld+json">
+                                    {
+                                        "@context": "http://schema.org",
+                                        "@type": "EmailMessage",
+                                        "potentialAction": {
+                                            "@type": "ViewAction",
+                                            "url": "{{ email.go_to_action.link | safe }}",
+                                            "name": "{{ email.go_to_action.text }}"
+                                        },
+                                        "description": "{{ email.go_to_action.description }}"
+                                    }
+                                    </script>
+                                    {% endif %}
+
                                     {% if email.outros %}
                                         {% for outro in email.outros %}
                                             <p>{{ outro }}</p>

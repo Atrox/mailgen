@@ -22,6 +22,8 @@ pub struct Email<'a> {
     pub outros: Option<Vec<&'a str>>,
     /// Signature for the contacted person (default to 'Yours truly')
     pub signature: Option<&'a str>,
+    /// Gmail Go-To Action for providing actionable content directly in the inbox
+    pub go_to_action: Option<GoToAction<'a>>,
 }
 
 /// Column configuration for table
@@ -82,4 +84,15 @@ pub struct Action<'a> {
     pub instructions: Option<&'a str>,
     /// Custom colors for the button in the format: (color, background-color)
     pub color: Option<(&'a str, &'a str)>,
+}
+
+/// Gmail Go-To Action for providing actionable content directly in the inbox
+#[derive(Debug, Clone, Serialize)]
+pub struct GoToAction<'a> {
+    /// Button text
+    pub text: &'a str,
+    /// Button link
+    pub link: &'a str,
+    /// Description of the action
+    pub description: &'a str,
 }

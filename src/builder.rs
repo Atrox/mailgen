@@ -1,9 +1,9 @@
-use crate::email::{Action, Email, Greeting, Table};
+use crate::email::{Action, Email, GoToAction, Greeting, Table};
 
 /// Email Builder
 ///
 /// ```
-/// use mailgen::{Action, EmailBuilder, Greeting};
+/// use mailgen::{Action, EmailBuilder, GoToAction, Greeting};
 ///
 /// let email = EmailBuilder::new()
 ///     .greeting(Greeting::Name("person name"))
@@ -23,6 +23,7 @@ use crate::email::{Action, Email, Greeting, Table};
 ///         instructions: Some("test instruction"),
 ///         ..Default::default()
 ///     })
+///     .go_to_action("Quick Action", "https://test.com/quick", "Perform this action directly from your gmail inbox")
 ///     .outro("test outr 1")
 ///     .outro("test outro 2")
 ///     .signature("test signature...")
@@ -38,6 +39,7 @@ pub struct EmailBuilder<'a> {
     actions: Option<Vec<Action<'a>>>,
     outros: Option<Vec<&'a str>>,
     signature: Option<&'a str>,
+    go_to_action: Option<GoToAction<'a>>,
 }
 
 impl<'a> EmailBuilder<'a> {
@@ -158,6 +160,24 @@ impl<'a> EmailBuilder<'a> {
         self
     }
 
+    /// Set a Gmail Go-To Action for the email
+    #[must_use]
+    pub fn go_to_action(mut self, text: &'a str, link: &'a str, description: &'a str) -> Self {
+        self.go_to_action = Some(GoToAction {
+            text,
+            link,
+            description,
+        });
+        self
+    }
+
+    /// Set a pre-created Gmail Go-To Action for the email
+    #[must_use]
+    pub fn set_go_to_action(mut self, go_to_action: GoToAction<'a>) -> Self {
+        self.go_to_action = Some(go_to_action);
+        self
+    }
+
     /// Build the email
     #[must_use]
     pub fn build(self) -> Email<'a> {
@@ -170,6 +190,7 @@ impl<'a> EmailBuilder<'a> {
             actions: self.actions,
             outros: self.outros,
             signature: self.signature,
+            go_to_action: self.go_to_action,
         }
     }
 }
