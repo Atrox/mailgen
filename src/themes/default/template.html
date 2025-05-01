@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -234,10 +233,17 @@
         }
 
         /* Data table ------------------------------ */
+        .data-table-title {
+            width: 100%;
+            margin: 0;
+            font-size: 17px;
+            padding: 20px 0 15px 0;
+        }
+        
         .data-wrapper {
             width: 100%;
             margin: 0;
-            padding: 35px 0;
+            padding: 0 0 35px 0;
         }
 
         .data-table {
@@ -298,14 +304,14 @@
 <body>
 <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="content">
+        <td align="center">
             <table class="email-content" width="100%" cellpadding="0" cellspacing="0">
                 <!-- Logo -->
                 <tr>
                     <td class="email-masthead">
                         <a class="email-masthead_name" href="{{ branding.link | safe }}" target="_blank">
                             {% if branding.logo %}
-                                <img src="{{ branding.logo }}" class="email-logo"/>
+                                <img src="{{ branding.logo }}" class="email-logo" alt="" />
                             {% else %}
                                 {{ branding.name }}
                             {% endif %}
@@ -339,12 +345,70 @@
                                         </dl>
                                     {% endif %}
 
+                                    <!-- Table data -->
+                                    {% if email.tables %}
+                                        {% for table in email.tables %}
+                                            <h1 class="data-table-title">{{ table.title }}</h1>
+                                            <table class="data-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <table class="data-table" width="100%" cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                {% for column in table.data[0] %}
+                                                                    <th
+                                                                        {% if table.columns and table.columns.custom_width and table.columns.custom_width[column] %}
+                                                                            width="{{ table.columns.custom_width[column] }}"
+                                                                        {% endif %}
+                                                                        {% if table.columns and table.columns.custom_alignment and table.columns.custom_alignment[column] %}
+                                                                            style="text-align: {{ table.columns.custom_alignment[column] }}"
+                                                                        {% endif %}
+                                                                    >
+                                                                        <p>{{ column|title }}</p>
+                                                                    </th>
+                                                                {% endfor %}
+                                                            </tr>
+                                                            {% for row in table.data %}
+                                                                <tr>
+                                                                    {% for column, cell in row|items %}
+                                                                        <td
+                                                                            {% if table.columns and table.columns.custom_alignment and table.columns.custom_alignment[column] %}
+                                                                                style="text-align: {{ table.columns.custom_alignment[column] }}"
+                                                                            {% endif %}
+                                                                        >
+                                                                            {{ cell }}
+                                                                        </td>
+                                                                    {% endfor %}
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        {% endfor %}
+                                    {% endif %}
+
                                     <!-- Action -->
                                     {% if email.actions %}
                                         {% for action in email.actions %}
                                             {% if action.instructions %}<p>{{ action.instructions }}</p>{% endif %}
-                                            <table class="body-action" align="center" width="100%"
-                                                cellpadding="0" cellspacing="0">
+                                            
+                                            <!--[if mso]>
+                                            <center>
+                                                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" 
+                                                    xmlns:w="urn:schemas-microsoft-com:office:word" 
+                                                    href="{{ action.link | safe }}" 
+                                                    style="height: 45px; v-text-anchor: middle; width: 200px;" 
+                                                    arcsize="10%" stroke="f" fillcolor="{% if action.color %}{{ action.color[0] }}{% else %}#3869D4{% endif %}">
+                                                    <w:anchorlock/>
+                                                    <center style="color: {% if action.color %}{{ action.color[1] }}{% else %}#ffffff{% endif %}; font-family: sans-serif; font-size: 15px;">
+                                                        {{ action.text }}
+                                                    </center>
+                                                </v:roundrect>
+                                            </center>
+                                            <![endif]-->
+                                            
+                                            <![if !mso]>
+                                            <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0">
                                                 <tr>
                                                     <td align="center">
                                                         <div>
@@ -355,6 +419,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <![endif]>
                                         {% endfor %}
                                     {% endif %}
 
@@ -372,28 +437,31 @@
 
                                         {{ branding.name }}
                                     </p>
-
-                                    {% if email.actions %}
-                                        <table class="body-sub">
-                                            <tbody>
-                                                {% for action in email.actions %}
-                                                    <tr>
-                                                        <td>
-                                                            <p class="sub">{{ branding.trouble_text | replace("{ACTION}", action.text) }}</p>
-                                                            <p class="sub">
-                                                                <a href="{{ action.link | safe }}">{{ action.link }}</a>
-                                                            </p>
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    {% endif %}
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
+
+                <!-- Action Fallback -->
+                {% if email.actions %}
+                <tr>
+                    <td class="email-body" width="100%">
+                        <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="content-cell">
+                                    {% for action in email.actions %}
+                                    <p class="sub">{{ branding.trouble_text | replace("{ACTION}", action.text) }}</p>
+                                    <p class="sub">
+                                        <a href="{{ action.link | safe }}">{{ action.link }}</a>
+                                    </p>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                {% endif %}
 
                 {% if branding.copyright %}
                     <tr>

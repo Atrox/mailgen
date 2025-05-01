@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fmt::Display;
 
 use serde::Serialize;
@@ -13,12 +14,34 @@ pub struct Email<'a> {
     pub intros: Option<Vec<&'a str>>,
     /// A list of key+value (useful for displaying parameters/settings/personal info)
     pub dictionary: Option<Vec<(&'a str, &'a str)>>,
+    /// Table data to display in the email
+    pub tables: Option<Vec<Table<'a>>>,
     /// Actions are a list of actions that the user will be able to execute via a button click
     pub actions: Option<Vec<Action<'a>>>,
     /// Outro sentences, last displayed in the email
     pub outros: Option<Vec<&'a str>>,
     /// Signature for the contacted person (default to 'Yours truly')
     pub signature: Option<&'a str>,
+}
+
+/// Column configuration for table
+#[derive(Debug, Clone, Serialize)]
+pub struct TableColumns<'a> {
+    /// Custom width for specific columns
+    pub custom_width: Option<HashMap<&'a str, &'a str>>,
+    /// Custom alignment for specific columns
+    pub custom_alignment: Option<HashMap<&'a str, &'a str>>,
+}
+
+/// Table data to display in the email
+#[derive(Debug, Clone, Serialize)]
+pub struct Table<'a> {
+    /// Table title
+    pub title: &'a str,
+    /// Table data rows
+    pub data: Vec<HashMap<&'a str, &'a str>>,
+    /// Column configuration
+    pub columns: Option<TableColumns<'a>>,
 }
 
 #[derive(Debug, Clone)]
@@ -29,7 +52,7 @@ pub enum Greeting<'a> {
     Custom(&'a str),
 }
 
-impl<'a> Display for Greeting<'a> {
+impl Display for Greeting<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Greeting::Name(name) => write!(f, "Hey {name},"),
@@ -38,7 +61,7 @@ impl<'a> Display for Greeting<'a> {
     }
 }
 
-impl<'a> Serialize for Greeting<'a> {
+impl Serialize for Greeting<'_> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,

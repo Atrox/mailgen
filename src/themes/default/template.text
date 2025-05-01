@@ -20,6 +20,20 @@
     </ul>
 {% endif %}
 
+{% if email.tables %}
+    {% for table in email.tables %}
+        <h3>{{ table.title }}</h3>
+        {% for row in table.data %}
+            {% for column, cell in row|items %}
+                {{ column }}: {{ cell }}
+                {% if not loop.last %}| {% endif %}
+            {% endfor %}
+            {% if not loop.last %}<br>{% endif %}
+        {% endfor %}
+        <br>
+    {% endfor %}
+{% endif %}
+
 {% if email.actions %}
     {% for action in email.actions %}
         <p>
