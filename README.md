@@ -36,7 +36,7 @@ let email = EmailBuilder::new()
         instructions: Some("test instruction"),
         ..Default::default()
     })
-    .outro("test outr 1")
+    .outro("test outro 1")
     .outro("test outro 2")
     .signature("test signature...")
     .build();

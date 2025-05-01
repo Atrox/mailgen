@@ -24,7 +24,7 @@ use crate::email::{Action, Email, GoToAction, Greeting, Table};
 ///         ..Default::default()
 ///     })
 ///     .go_to_action("Quick Action", "https://test.com/quick", "Perform this action directly from your gmail inbox")
-///     .outro("test outr 1")
+///     .outro("test outro 1")
 ///     .outro("test outro 2")
 ///     .signature("test signature...")
 ///     .build();
