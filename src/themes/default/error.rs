@@ -6,4 +6,6 @@ pub enum Error {
     Render(#[from] minijinja::Error),
     #[error("css inlining error: {0}")]
     InlineCSS(#[from] css_inline::InlineError),
+    #[error("html to text error: {0}")]
+    HtmlToText(#[from] html2text::Error),
 }

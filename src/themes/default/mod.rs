@@ -61,7 +61,7 @@ impl Theme for DefaultTheme {
 
     fn text(&self, context: &TemplateContext) -> Result<String, Self::Error> {
         let text = self.render("text", context)?;
-        let text = html2text::from_read(text.as_bytes(), 80);
+        let text = html2text::from_read(text.as_bytes(), 80)?;
 
         Ok(text)
     }
