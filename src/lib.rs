@@ -52,7 +52,7 @@ pub mod themes;
 pub use builder::EmailBuilder;
 pub use email::{Action, Email, GoToAction, Greeting, Table, TableColumns};
 use serde::{Deserialize, Serialize};
-use themes::{TemplateContext, Theme};
+pub use themes::{TemplateContext, Theme};
 
 pub struct Mailgen<T: Theme> {
     theme: T,
