@@ -16,8 +16,8 @@ default-theme = ["dep:minijinja", "dep:css-inline", "dep:html2text"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
-thiserror = "2.0.12"
+thiserror = "2.0.18"
 
 minijinja = { version = "2.0.1", optional = true }
 css-inline = { version = "0.19.0", optional = true, default-features = false }
-html2text = { version = "0.16.5", optional = true }
+html2text = { version = "0.16.6", optional = true }
