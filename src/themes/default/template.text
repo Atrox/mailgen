@@ -12,6 +12,10 @@
     {% endfor %}
 {% endif %}
 
+{% if email.highlight %}
+    <p>{{ email.highlight }}</p>
+{% endif %}
+
 {% if email.dictionary %}
     <ul>
     {% for (key, value) in email.dictionary %}

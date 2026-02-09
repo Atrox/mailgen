@@ -131,6 +131,7 @@ mod tests {
             .greeting(Greeting::Name("person name"))
             .intro("test intro")
             .intro("another intro")
+            .highlight("123456")
             .dictionary("test key", "test value")
             .dictionary("test key 2", "test value 2")
             .action(Action {
@@ -256,6 +257,7 @@ mod tests {
             .greeting(Greeting::Name("Test User"))
             .intro("Welcome to our service!")
             .intro("We're excited to have you on board.")
+            .highlight("123456")
             .dictionary("Account", "test@example.com")
             .dictionary("Plan", "Premium")
             .action(Action {

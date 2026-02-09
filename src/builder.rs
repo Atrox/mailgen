@@ -34,6 +34,7 @@ pub struct EmailBuilder<'a> {
     summary: Option<&'a str>,
     greeting: Option<Greeting<'a>>,
     intros: Option<Vec<&'a str>>,
+    highlight: Option<&'a str>,
     dictionary: Option<Vec<(&'a str, &'a str)>>,
     tables: Option<Vec<Table<'a>>>,
     actions: Option<Vec<Action<'a>>>,
@@ -82,6 +83,13 @@ impl<'a> EmailBuilder<'a> {
     #[must_use]
     pub fn set_intros(mut self, intros: Vec<&'a str>) -> Self {
         self.intros = Some(intros);
+        self
+    }
+
+    /// Highlighted text displayed prominently (e.g. OTP codes, verification tokens)
+    #[must_use]
+    pub fn highlight(mut self, v: &'a str) -> Self {
+        self.highlight = Some(v);
         self
     }
 
@@ -185,6 +193,7 @@ impl<'a> EmailBuilder<'a> {
             summary: self.summary,
             greeting: self.greeting,
             intros: self.intros,
+            highlight: self.highlight,
             dictionary: self.dictionary,
             tables: self.tables,
             actions: self.actions,

@@ -12,6 +12,8 @@ pub struct Email<'a> {
     pub greeting: Option<Greeting<'a>>,
     /// Intro sentences, first displayed in the email
     pub intros: Option<Vec<&'a str>>,
+    /// Highlighted text displayed prominently (e.g. OTP codes, verification tokens)
+    pub highlight: Option<&'a str>,
     /// A list of key+value (useful for displaying parameters/settings/personal info)
     pub dictionary: Option<Vec<(&'a str, &'a str)>>,
     /// Table data to display in the email

@@ -271,6 +271,26 @@
             line-height: 18px;
         }
 
+        /* Highlight ------------------------------ */
+        .body-highlight {
+            width: 100%;
+            margin: 25px auto;
+            padding: 0;
+            text-align: center;
+        }
+
+        .highlight {
+            display: inline-block;
+            font-size: 36px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: #2F3133;
+            background-color: #F2F4F6;
+            padding: 16px 32px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
         /* Buttons ------------------------------ */
         .button {
             display: inline-block;
@@ -334,6 +354,16 @@
                                         {% for intro in email.intros %}
                                             <p>{{ intro }}</p>
                                         {% endfor %}
+                                    {% endif %}
+
+                                    {% if email.highlight %}
+                                    <table class="body-highlight" width="100%" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td align="center">
+                                                <span class="highlight">{{ email.highlight }}</span>
+                                            </td>
+                                        </tr>
+                                    </table>
                                     {% endif %}
 
                                     {% if email.dictionary %}
